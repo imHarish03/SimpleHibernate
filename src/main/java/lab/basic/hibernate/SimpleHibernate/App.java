@@ -1,9 +1,12 @@
 package lab.basic.hibernate.SimpleHibernate;
 
+import java.io.File;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
@@ -16,12 +19,15 @@ public class App {
 	public static void main(String[] args) {
 		try {
 			//// Load Configuration
-			Configuration cfg = new Configuration();
-			cfg.addAnnotatedClass(lab.basic.hibernate.SimpleHibernate.User.class);
-			cfg.configure();
-			SessionFactory sessionFactory = cfg.buildSessionFactory();
-			Session session = sessionFactory.openSession();
+			/*
+			 * Configuration cfg = new Configuration();
+			 * cfg.addAnnotatedClass(lab.basic.hibernate.SimpleHibernate.User.class);
+			 * cfg.configure(); SessionFactory sessionFactory = cfg.buildSessionFactory();
+			 * Session session = sessionFactory.openSession();
+			 */
 
+			SessionFactory sessionFactory = new AnnotationConfiguration().configure(new File("hibernate.cfg.xml")).buildSessionFactory();
+			Session session = sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
 			User u = new User();
 			u.setName("Haris");
@@ -37,6 +43,7 @@ public class App {
 
 			User getUsr = (User) session2.load(User.class, 100);
 			System.out.println(getUsr.getName());
+			
 
 		} catch (Exception e) {
 			System.out.println(e);
