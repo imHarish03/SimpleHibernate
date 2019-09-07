@@ -1,25 +1,35 @@
 package lab.basic.hibernate.SimpleHibernate;
 
+import java.io.File;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 /**
  * Hello world!
  *
  */
 public class App {
+
 	public static void main(String[] args) {
 		try {
 			//// Load Configuration
-			Configuration cfg = new Configuration();
-			cfg.addAnnotatedClass(lab.basic.hibernate.SimpleHibernate.User.class);
-			cfg.configure();
-			SessionFactory sessionFactory = cfg.buildSessionFactory();
-			Session session = sessionFactory.openSession();
+			/*
+			 * Configuration cfg = new Configuration();
+			 * cfg.addAnnotatedClass(lab.basic.hibernate.SimpleHibernate.User.class);
+			 * cfg.configure(); SessionFactory sessionFactory = cfg.buildSessionFactory();
+			 * Session session = sessionFactory.openSession();
+			 */
 
 			///// Save Data into Database
+			SessionFactory sessionFactory = new AnnotationConfiguration().configure(new File("hibernate.cfg.xml"))
+					.buildSessionFactory();
+			Session session = sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
 			User u = new User();
 			u.setName("Saurabh");
@@ -58,4 +68,5 @@ public class App {
 			System.out.println(e);
 		}
 	}
+
 }
